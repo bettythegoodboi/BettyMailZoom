@@ -1,0 +1,41 @@
+name: Build BettyMailZoom
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Test (.NET 4.8 WinForms)
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Restore NuGet Packages
+        run: dotnet restore BettyMailZoom.csproj
+
+      - name: Build Release Executable
+        run: dotnet build BettyMailZoom.csproj -c Release --no-restore
+
+      - name: Run Automated Test Suite
+        run: .\bin\Release\net48\BettyMailZoom.exe --test
+
+      - name: Upload Release Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: BettyMailZoom-Release
+          path: bin/Release/net48/
+          if-no-files-found: error
