@@ -1,0 +1,25 @@
+## Visual Studio / .NET ignores
+[Bb]in/
+[Oo]bj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]uild/
+
+## SQLite & Local AppData
+*.db
+*.db-wal
+*.db-shm
+*.log
+
+## VS Code
+.vscode/
+.vs/
